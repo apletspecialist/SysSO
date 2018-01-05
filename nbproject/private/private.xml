@@ -4,10 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/interpreter.java</file>
+            <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/Main.java</file>
             <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/Memory.java</file>
             <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/SysOS.java</file>
             <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/process_manager.java</file>
             <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/FFA.java</file>
+            <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/scheduler.java</file>
             <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/PCB.java</file>
             <file>file:/C:/Users/Matitam/Desktop/SysOS/SysOS/src/sysos/Tomek.java</file>
         </group>

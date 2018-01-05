@@ -1,9 +1,13 @@
 
+import sysos.process_manager;
+
+
 public class Main {
 	public static int OBECNY_PROCES = 1;
 
 	public static Memory M = new Memory();
 	public static Tomek T = new Tomek();
+        public static process_manager P = new process_manager();
 
 	public static void main(String[] args) {
 

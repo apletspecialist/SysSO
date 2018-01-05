@@ -27,7 +27,7 @@ public class process_manager {
         return success;
     }
     //globalne
-    public process INIT,pip;
+    public process INIT, pip;
     public int last_PID = 1;
 
     public class exit {
@@ -40,14 +40,24 @@ public class process_manager {
         public int who, for_who;
     }
 
-    public ArrayList<exit> ex = new ArrayList<>();
-    public ArrayList<wait> wa = new ArrayList<>();
+    public ArrayList<exit> ex = new ArrayList<exit>();
+    public ArrayList<wait> wa = new ArrayList<wait>();
+    public ArrayList<process> ready = new ArrayList<process>();
 
     //typ enum stanu procesu
     public enum status {
         NEW, ACTIVE, WAITING, READY, TERMINATED, ZOMBIE, INIT
     }
-
+    
+    public ArrayList<process> ready_processes(){
+        
+        ArrayList<process> x = new ArrayList<process>();
+        for(wait i : wa){
+            ready.add()
+        }    
+        return x;
+    }
+    
     //klasa zagnieżdżona procesu
     public class process {
 
@@ -55,19 +65,44 @@ public class process_manager {
         public process father, big_bro, little_bro, child;
 
         //ID
-        public int PID, PPID;
+        public int PPID;
 
         //szeregowanie
         public status s;
-        public int priority, d_priority, pending;
+        public int pri, cpu;
+        public Integer usrpri, PID;
         public int id, move;
         public final Queue<Character> IO = new LinkedList<>();
         public boolean input;
         public boolean output;
+        public boolean res_flag;
         public process previous, next;
 
         //kontekst procesu
         public int A, B, C, counter;
+
+        public process() {
+
+            this.father = null;
+            this.big_bro = null;
+            this.little_bro = null;
+            this.child = null;
+            this.PID = 0;
+            this.PPID = 0;
+            this.s = status.NEW;
+            this.pri = 0;
+            this.cpu = 0;
+            this.previous = null;
+            this.next = null;
+            this.A = 0;
+            this.B = 0;
+            this.C = 0;
+            this.counter = 0;
+        }
+
+        public void change_process_state(status status) {
+            this.s = status;
+        }
 
         public int free_PID() {
             if (!(last_PID >= 1 && last_PID <= 0xffff8000)) {
@@ -86,25 +121,6 @@ public class process_manager {
             this.B = b;
             this.B = c;
             this.counter = co;
-        }
-
-        public process() {
-
-            this.father = null;
-            this.big_bro = null;
-            this.little_bro = null;
-            this.child = null;
-            this.PID = 0;
-            this.PPID = 0;
-            this.s = status.NEW;
-            this.priority = 0;
-            this.pending = 0;
-            this.previous = null;
-            this.next = null;
-            this.A = 0;
-            this.B = 0;
-            this.C = 0;
-            this.counter = 0;
         }
 
         public void init() {
@@ -126,13 +142,13 @@ public class process_manager {
             if (reserve_m(this.PID, p.PID, "") != -1) {
                 p.s = status.READY;
                 Random gen = new Random();
-                int i = gen.nextInt(15) + 1;
+                int i = gen.nextInt(127) + 1;
                 p.A = this.A;
                 p.B = this.B;
                 p.C = this.C;
                 p.counter = this.counter;
-                p.pending = i;
-                p.priority = i;
+                p.cpu = 0;
+                p.pri = i;
                 p.PPID = this.PID;
                 p.father = this;
                 if (this.child != null) {
@@ -579,7 +595,7 @@ public class process_manager {
                 process p = find_process(pid);
                 System.out.println("PID: " + p1.PID + "\nPPID: " + p1.PPID);
 
-                System.out.println("Status: " + p1.s + "Priorytet: " + p1.priority + "\nRejestr A: " + p1.A
+                System.out.println("Status: " + p1.s + "Priorytet: " + p1.pri + "\nRejestr A: " + p1.A
                         + "\nRejestr B: " + p1.B + "\nRejestr C: " + p1.C + "\nLicznik: " + p1.counter);
 
                 System.out.println("Rodzina:");
