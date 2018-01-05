@@ -1,0 +1,5 @@
+process_control.process_manager$wait
+process_control.process_manager$exit
+process_control.process_manager$status
+process_control.process_manager
+process_control.process_manager$process
