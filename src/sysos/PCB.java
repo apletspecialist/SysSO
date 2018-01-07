@@ -1,4 +1,4 @@
-
+package sysos;
 public class PCB {
 	//To bym chcia³ ¿ebyœ zaimplementowa³, zeby proces przy tworzeniu wypelnial rozmiar programu//
 	public int programSize; // rozmiar programu

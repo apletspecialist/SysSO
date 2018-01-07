@@ -7,6 +7,8 @@ package sysos;
 
 import java.util.Scanner;
 
+import sysos.process_manager.process;
+
 /**
  *
  * @author Matitam
@@ -21,6 +23,8 @@ public class SysOS {
         Scanner s=new Scanner(System.in);
         String str = s.nextLine();
         System.out.println(str);
+        
+        Memory m = new Memory();
         
     }
     

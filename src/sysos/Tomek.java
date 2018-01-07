@@ -1,4 +1,4 @@
-
+package sysos;
 public class Tomek {
 
 	public PCB[] testList = new PCB[12];

@@ -53,7 +53,7 @@ public class process_manager {
         
         ArrayList<process> x = new ArrayList<process>();
         for(wait i : wa){
-            ready.add()
+            ready.add();//ARGUMENT??
         }    
         return x;
     }
