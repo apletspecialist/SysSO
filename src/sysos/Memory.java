@@ -1,5 +1,3 @@
-package sysos;
-
 import java.io.BufferedWriter;
 import java.util.Stack;
 
