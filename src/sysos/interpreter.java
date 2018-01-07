@@ -1,17 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package sysos;
 
-/**
- *
- * @author Matitam
- */
-
-public class interpreter {
-	interpreter(){}
+public class Interpreter {
+	Interpreter(){}
 void exe()
 {
 	String roz;
@@ -28,12 +17,14 @@ void exe()
 			idrej=2;
 		if(roz=="R3")
 			idrej=3;
+		if(roz=="R4")
+			idrej=4;
 		//ponowne pobranie rozkazu lr+1
 		int liczba;
-		if(roz[0]=='[')
+		if(roz.charAt(0)=='[')
 		{
 			String pom;
-			pom=roz[1]+roz[2];
+			pom=roz.substring(1, 2);
 			int p=Integer.valueOf(pom);
 			//pobranie z pamięci i przypisanie do zmiennej
 		}
@@ -43,6 +34,8 @@ void exe()
 			//liczba=Preces.R2;
 		if(roz=="R3")
 			//liczba=Preces.R3;
+		if(roz=="R4")
+			//liczba=Preces.R4;
 		else
 			//liczba=Integer.valueOf(roz);
 		if(idrej==1)
@@ -50,6 +43,8 @@ void exe()
 		if(idrej==2)
 			//Proces.R2+=liczba;
 		if(idrej==3)
+			//Proces.R3+=liczba;
+		if(idrej==4)
 			//Proces.R3+=liczba;
 	} break;
 	case "SU":
@@ -62,12 +57,14 @@ void exe()
 			idrej=2;
 		if(roz=="R3")
 			idrej=3;
+		if(roz=="R4")
+			idrej=4;
 		//ponowne pobranie rozkazu lr+1
 		int liczba;
-		if(roz[0]=='[')
+		if(roz.charAt(0)=='[')
 		{
 			String pom;
-			pom=roz[1]+roz[2];
+			pom=roz.substring(1, 2);
 			int p=Integer.valueOf(pom);
 			//pobranie z pamięci i przypisanie do zmiennej
 		}
@@ -77,6 +74,8 @@ void exe()
 			//liczba=Preces.R2;
 		if(roz=="R3")
 			//liczba=Preces.R3;
+		if(roz=="R4")
+			//liczba=Preces.R4;
 		else
 			//liczba=Integer.valueOf(roz);
 		if(idrej==1)
@@ -84,6 +83,8 @@ void exe()
 		if(idrej==2)
 			//Proces.R2-=liczba;
 		if(idrej==3)
+			//Proces.R3-=liczba;
+		if(idrej==4)
 			//Proces.R3-=liczba;
 	} break;
 	case "MU":
@@ -96,12 +97,14 @@ void exe()
 			idrej=2;
 		if(roz=="R3")
 			idrej=3;
+		if(roz=="R4")
+			idrej=4;
 		//ponowne pobranie rozkazu lr+1
 		int liczba;
-		if(roz[0]=='[')
+		if(roz.charAt(0)=='[')
 		{
 			String pom;
-			pom=roz[1]+roz[2];
+			pom=roz.substring(1, 2);
 			int p=Integer.valueOf(pom);
 			//pobranie z pamięci i przypisanie do zmiennej
 		}
@@ -111,6 +114,8 @@ void exe()
 			//liczba=Preces.R2;
 		if(roz=="R3")
 			//liczba=Preces.R3;
+		if(roz=="R4")
+			//liczba=Preces.R4;
 		else
 			//liczba=Integer.valueOf(roz);
 		if(idrej==1)
@@ -118,6 +123,8 @@ void exe()
 		if(idrej==2)
 			//Proces.R2*=liczba;
 		if(idrej==3)
+			//Proces.R3*=liczba;		
+		if(idrej==4)
 			//Proces.R3*=liczba;
 	} break;
 	case "MO":
@@ -130,12 +137,14 @@ void exe()
 			idrej=2;
 		if(roz=="R3")
 			idrej=3;
+		if(roz=="R4")
+			idrej=4;
 		//ponowne pobranie rozkazu lr+1
 		int liczba;
-		if(roz[0]=='[')
+		if(roz.charAt(0)=='[')
 		{
 			String pom;
-			pom=roz[1]+roz[2];
+			pom=roz.substring(1, 2);
 			int p=Integer.valueOf(pom);
 			//pobranie z pamięci i przypisanie do zmiennej
 		}
@@ -145,6 +154,8 @@ void exe()
 			//liczba=Preces.R2;
 		if(roz=="R3")
 			//liczba=Preces.R3;
+		if(roz=="R4")
+			//liczba=Preces.R4;
 		else
 			//liczba=Integer.valueOf(roz);
 		if(idrej==1)
@@ -152,6 +163,8 @@ void exe()
 		if(idrej==2)
 			//Proces.R2=liczba;
 		if(idrej==3)
+			//Proces.R3=liczba;
+		if(idrej==4)
 			//Proces.R3=liczba;
 	} break;
 	case "JP":
@@ -170,7 +183,9 @@ void exe()
 			//to samo co wyzej
 		if(roz=="R3")
 			//to samo co wyzej
-	}
+		if(roz=="R4")
+			//to samo co wyzej
+	} break;
 	case "IC":
 	{
 		if(roz=="R1")
@@ -179,6 +194,8 @@ void exe()
 			//process.r2++;
 		if(roz=="R3")
 			//process.r2++;
+		if(roz=="R4")
+			//process.r1++;
 	} break;
 	case "DC":
 	{
@@ -188,8 +205,9 @@ void exe()
 			//process.r2--;
 		if(roz=="R3")
 			//process.r2--;
+		if(roz=="R4")
+			//process.r2--;
 	} break;
 	}
 }
 }
-
