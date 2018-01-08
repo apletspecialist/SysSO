@@ -1,4 +1,10 @@
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.Stack;
 
 public class Memory {
@@ -112,7 +118,7 @@ public class Memory {
 	}
 
 	//////////////////////////////// METODY_MOJE///////////////////////////////////////////////////////
-	private void putPageToSwap(int victim, int place) { // umieszcza stronê w podanym miejscu w pliku wymiany
+	private void putPageToSwap(int victim, int place) { // umieszcza stronÃª w podanym miejscu w pliku wymiany
 		String toPut = new String();
 		for (int i = victim * 16; i < (victim * 16) + 16; i++) {
 			toPut += ram[i];
@@ -141,7 +147,7 @@ public class Memory {
 		}
 	}
 
-	private String getPageFromSwap(int pageNumber) { // zwraca stronê o danym numerze z pliku wymiany
+	private String getPageFromSwap(int pageNumber) { // zwraca stronÃª o danym numerze z pliku wymiany
 		String out = new String();
 		try {
 			FileInputStream fis = new FileInputStream(swap);
@@ -207,7 +213,7 @@ public class Memory {
 		}
 	}
 
-	public char readMemory(int l_addr) { // zwraca char z pamiêci
+	public char readMemory(int l_addr) { // zwraca char z pamiÃªci
 		PCB current = Main.T.getPcb(Main.OBECNY_PROCES);
 
 		if (l_addr > getProgramSize(current)) {
