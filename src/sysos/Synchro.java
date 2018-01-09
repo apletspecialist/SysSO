@@ -88,36 +88,4 @@ public class Synchro {
         sum=sum-1;
         return sum;
     }
-    
-    
-    
-    public static void main(String[] args) throws InterruptedException 
-    {
-        
-        int sum =0;
-        
-        Lock lock = new Lock();
-        Proces ONE = new Proces();
-        Proces TWO = new Proces();
-        
-        Synchro SYNC1 = new Synchro("SYNC1", ONE, lock);
-        Synchro SYNC2 = new Synchro("SYNC2", TWO, lock);
-        
-        
-        for(int i=1; i<=3; i++)
-        {
-            SYNC1.TO_CRITICAL_SECTION_CAS();
-            sum = SYNC1.sumN(sum);
-            System.out.println("s "+sum);
-            SYNC1.OFF_CRITICAL_SECTION();
-            
-            SYNC2.TO_CRITICAL_SECTION_CAS();
-            sum = SYNC2.sumN(sum);
-            System.out.println("s "+sum);
-            SYNC2.OFF_CRITICAL_SECTION();
-            
-            
-        }
-    }
-    
 }
