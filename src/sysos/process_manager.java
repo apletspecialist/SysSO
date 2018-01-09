@@ -10,7 +10,7 @@ public class process_manager {
 
     //protezy
     String code;
-    int a, b, c, co;
+    int a, b, c, d, co;
 
     boolean free_m(String name) {
         boolean success = true;
@@ -48,16 +48,31 @@ public class process_manager {
     public enum status {
         NEW, ACTIVE, WAITING, READY, TERMINATED, ZOMBIE, INIT
     }
-    
-    public ArrayList<process> ready_processes(){
-        
+
+    public process find(int pid) {
+        if (pid == 0) {
+            return INIT;
+        }
+        process p = INIT;
+        while (p.next != null) {
+            p = p.next;
+            if (p.PID == pid) {
+                return p;
+            }
+        }
+        System.out.println("Nie ma procesu o podanym PID!");
+        return null;
+    }
+
+    public ArrayList<process> ready_processes() {
+
         ArrayList<process> x = new ArrayList<process>();
-        for(wait i : wa){
-            ready.add();//ARGUMENT??
-        }    
+        for (wait i : wa) {
+            ready.add(find(i.who));
+        }
         return x;
     }
-    
+
     //klasa zagnieżdżona procesu
     public class process {
 
@@ -66,6 +81,7 @@ public class process_manager {
 
         //ID
         public int PPID;
+        public String name;
 
         //szeregowanie
         public status s;
@@ -79,10 +95,11 @@ public class process_manager {
         public process previous, next;
 
         //kontekst procesu
-        public int A, B, C, counter;
+        public int A, B, C, D, counter;
 
-        public process() {
+        public process(String n) {
 
+            this.name = n;
             this.father = null;
             this.big_bro = null;
             this.little_bro = null;
@@ -97,6 +114,7 @@ public class process_manager {
             this.A = 0;
             this.B = 0;
             this.C = 0;
+            this.D = 0;
             this.counter = 0;
         }
 
@@ -119,12 +137,13 @@ public class process_manager {
         public void read_context() {
             this.A = a;
             this.B = b;
-            this.B = c;
+            this.C = c;
+            this.D = d;
             this.counter = co;
         }
 
         public void init() {
-            INIT = new process();
+            INIT = new process("INIT");
             INIT.s = status.INIT;
             INIT.PID = 0;
             INIT.PPID = 0;
@@ -137,8 +156,11 @@ public class process_manager {
         }
 
         public int fork() {
-            process p = new process();
+            //utworzenie nowego procesu i nadanie mu nazwy
+            String n_name = this.name + 'c';
+            process p = new process(n_name);
             p.PID = free_PID();
+            //pamięć
             if (reserve_m(this.PID, p.PID, "") != -1) {
                 p.s = status.READY;
                 Random gen = new Random();
@@ -146,11 +168,13 @@ public class process_manager {
                 p.A = this.A;
                 p.B = this.B;
                 p.C = this.C;
+                p.D = this.D;
                 p.counter = this.counter;
                 p.cpu = 0;
                 p.pri = i;
                 p.PPID = this.PID;
                 p.father = this;
+                //rodzina
                 if (this.child != null) {
                     this.child = p;
                 } else {
@@ -161,6 +185,7 @@ public class process_manager {
                     p1.little_bro = p;
                     p.big_bro = p1;
                 }
+                //dodanie do listy
                 process p2 = this;
                 while (p2.next != null) {
                     p2 = p2.next;
@@ -168,19 +193,29 @@ public class process_manager {
                 p2.next = p;
                 p.next = null;
                 p.previous = p2;
+                //jeśli proces został poprawnie utworzony
+                System.out.println("Utworzono proces potomny o PID: " + p.PID);
+                show_process(p.PID);
                 return p.PID;
-            } else {
+            } //jeśli nie został
+            else {
+                System.out.println("Nie utworzono procesu potomnego!");
+
                 return -1;
             }
         }
 
         public boolean exec(String name, String name1, String path) {
+            //sprawdzenie pamięci
             if (reserve_m(this.PID, this.PID, path)) {
+                //reset składowych
                 this.A = 0;
                 this.B = 0;
                 this.C = 0;
+                this.D = 0;
                 this.counter = 0;
                 this.s = status.READY;
+                System.out.println("Proces o PID: " + this.PID + " otrzymał nowy kod do wykonania.");
                 return true;
             } else {
                 return false;
@@ -193,56 +228,63 @@ public class process_manager {
             if (this.s == status.ZOMBIE) {
                 System.out.println("Proces z PID: " + this.PID + " nie istnieje, więc nie można wywołać tej metody na jego dziecku.");
             } else {
-                for (int i = 0; i < ex.size(); i++) {
-                    e = ex.get(i);
-                    if (e.who == this.child.PID) {
-                        temp = i;
+                if (this.child != null) {
+                    //sprawdzenie czy proces jest na liście zakończonych
+                    for (int i = 0; i < ex.size(); i++) {
+                        e = ex.get(i);
+                        if (e.who == this.child.PID) {
+                            temp = i;
+                        }
                     }
-                }
-                if (temp >= 0) {
-                    e.res = 1;
-                    process p = INIT;
-                    while (p.next != null) {
-                        p = p.next;
-                        if (p.PID == this.child.PID) {
-                            System.out.println(p.PID);
-                            process p1 = p.previous;
-                            if (p.next != null) {
-                                process p2 = p.next;
-                                System.out.println(p1.PID);
-                                System.out.println(p2.PID);
-                                p1.next = p2;
-                                p2.previous = p1;
-                            } else {
-                                p1.next = null;
-                            }
-                            p.previous = null;
-                            p.next = null;
-                            for (int i = 0; i < ex.size(); i++) {
-                                if (ex.get(i).who == this.child.PID) {
-                                    ex.remove(i);
-                                    return true;
+                    //jeśli jest
+                    if (temp >= 0) {
+                        e.res = 1;
+                        //usunięcie go z listy
+                        process p = INIT;
+                        while (p.next != null) {
+                            p = p.next;
+                            if (p.PID == this.child.PID) {
+                                System.out.println(p.PID);
+                                process p1 = p.previous;
+                                if (p.next != null) {
+                                    process p2 = p.next;
+                                    System.out.println(p1.PID);
+                                    System.out.println(p2.PID);
+                                    p1.next = p2;
+                                    p2.previous = p1;
+                                } else {
+                                    p1.next = null;
+                                }
+                                p.previous = null;
+                                p.next = null;
+                                for (int i = 0; i < ex.size(); i++) {
+                                    if (ex.get(i).who == this.child.PID) {
+                                        ex.remove(i);
+                                        return true;
+                                    }
                                 }
                             }
                         }
+                        //jeśli nie ma
+                    } else {
+                        if (this.s == status.ACTIVE) {
+                            //read_context();
+                        }
+                        if (this.PID != 0) {
+                            this.s = status.WAITING;
+                        }
+                        wait w = null;
+                        w.who = this.PID;
+                        w.for_who = this.child.PID;
+                        wa.add(w);
+                        return false;
                     }
-                } else {
-                    if (this.s == status.ACTIVE) {
-                        read_context();
-                    }
-                    if (this.PID != 0) {
-                        this.s = status.WAITING;
-                    }
-                    wait w = null;
-                    w.who = this.PID;
-                    w.for_who = this.PID;
-                    wa.add(w);
-                    return false;
                 }
             }
             //NWM MAX
             return false;
         }
+        //tu
 
         public boolean exit(int stat) {
             boolean del = false;
@@ -591,8 +633,11 @@ public class process_manager {
 
         public void show_process(int pid) {
             process p1 = null;
-            if (p1 == find_process(pid)) {
-                process p = find_process(pid);
+            process p = null;
+            /*if (p1 == find_process(pid)) {*/
+            if (find_process(pid) != null) {
+                p = find_process(pid);
+                p1 = find_process(pid);
                 System.out.println("PID: " + p1.PID + "\nPPID: " + p1.PPID);
 
                 System.out.println("Status: " + p1.s + "Priorytet: " + p1.pri + "\nRejestr A: " + p1.A
@@ -638,6 +683,52 @@ public class process_manager {
             }
         }
 
-    }
+        ////////////// TUTAJ_PROSZE_NIE_RUSZAC_~FILIP////////////////
+        public class Pair {
 
+            public boolean isInRam = false;
+            public int inWhichFrame = -1;
+        }
+
+        public int swapFileBeginning; // gdize w pliku wymiany zaczyna sie porgram
+        public Pair[] pageTable;
+
+        public void createPageTable(int SIZE) {
+            pageTable = new Pair[(SIZE + 15) / 16];
+            for (int i = 0; i < pageTable.length; i++) {
+                pageTable[i] = new Pair();
+            }
+        }
+
+        public int pageCheck(int what) {
+            if (pageTable[what].isInRam) {
+                return pageTable[what].inWhichFrame;
+            } else {
+                return -1;
+            }
+        }
+
+        public void pageDisable(int what) {
+
+            for (int i = 0; i < pageTable.length; i++) {
+                if (pageTable[i].inWhichFrame == what) {
+                    pageTable[i].isInRam = false;
+                    pageTable[i].inWhichFrame = -1;
+                }
+            }
+
+        }
+
+        public void pageEnable(int what, int where) {
+            if (!pageTable[what].isInRam) {
+                pageTable[what].isInRam = true;
+                pageTable[what].inWhichFrame = where;
+            } else //	System.out.println("STRONICA ZNAJDUJE SIE JUZ W RAMIE");
+            ///////////////////////TUTAJ_JUZ_SPOKO_MOZNA/////////////////////////
+            {
+
+            }
+        }
+
+    }
 }

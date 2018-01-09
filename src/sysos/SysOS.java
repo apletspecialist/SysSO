@@ -14,18 +14,17 @@ import sysos.process_manager.process;
  * @author Matitam
  */
 public class SysOS {
+	static int OBECNY_PROCES = 1;
+	static process_manager T = new process_manager();
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        Scanner s=new Scanner(System.in);
-        String str = s.nextLine();
-        System.out.println(str);
-        
-        Memory m = new Memory();
-        
-    }
-    
+	public static void main(String[] args) {
+		// TODO code application logic here
+		Scanner s = new Scanner(System.in);
+		String str = s.nextLine();
+		System.out.println(str);
+
+		Memory m = new Memory();
+		FileSystem F = new FileSystem();
+	}
+
 }

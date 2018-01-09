@@ -4,11 +4,13 @@ import sysos.process_manager.process;
 
 public class interpreter {
 	Memory m = new Memory();
-	process pr = new process();
-	interpreter(Memory m,process pr)
+	FileSystem f = new FileSystem();
+	process pr;
+	interpreter(Memory m,process pr, FileSystem f)
 	{
 		this.m=m;
-		this.pr=pr;
+		pr = SysOS.T.find(SysOS.OBECNY_PROCES);
+		this.f=f;
 	}
 void exe()
 {
@@ -19,7 +21,7 @@ void exe()
 	{
 	case "AD":
 	{
-		int idrej;
+		int idrej = 0;
 		roz="";
 		roz=m.readUntilSpace(pr.counter);
 		pr.counter+=roz.length()+1;
@@ -59,7 +61,7 @@ void exe()
 	} break;
 	case "SU":
 	{
-		int idrej;
+		int idrej = 0;
 		roz="";
 		roz=m.readUntilSpace(pr.counter);
 		pr.counter+=roz.length()+1;
@@ -99,7 +101,7 @@ void exe()
 	} break;
 	case "MU":
 	{
-		int idrej;
+		int idrej = 0;
 		roz="";
 		roz=m.readUntilSpace(pr.counter);
 		pr.counter+=roz.length()+1;
@@ -139,7 +141,7 @@ void exe()
 	} break;
 	case "MO":
 	{
-		int idrej;
+		int idrej = 0;
 		roz="";
 		roz=m.readUntilSpace(pr.counter);
 		pr.counter+=roz.length()+1;
@@ -165,7 +167,7 @@ void exe()
 		if(roz=="R3")
 			liczba=pr.C;
 		if(roz=="R4")
-			liczba=pr.D;
+			liczba =pr.D;
 		else
 			liczba=Integer.valueOf(roz);
 		if(idrej==1)
@@ -224,6 +226,13 @@ void exe()
 		if(roz=="R4")
 			pr.D--;
 	} break;
+	case "CF":
+	{
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		f.createFile(roz);
+	}
 	}
 }
 }
