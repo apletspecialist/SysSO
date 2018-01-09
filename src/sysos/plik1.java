@@ -1,5 +1,5 @@
 package sysos;
-
+import sysos.process_manager.process;
 /**
  *
  * @author boromir
@@ -24,15 +24,12 @@ public class plik1 {
        
        void closedes(process p)
        {
-           int numb=p.des[0];
+           int numb=p.des;
            if(tab[numb].readbytes==tab[numb].writebytes)
            {
            tab[numb].open=0;
-           for(int i=tab[numb].qfreespace;i>=0;i--)
+           for(int i=tab[numb].qfreespace;i<=256;i++)
                tab[numb].myQueue.poll();
            }
-       }
-       
-    
-       
+       }           
 }
