@@ -24,7 +24,7 @@ public class plik1 {
        
        void closedes(process p)
        {
-           int numb=p.des[0];
+           int numb=p.des;
            if(tab[numb].readbytes==tab[numb].writebytes)
            {
            tab[numb].open=0;
