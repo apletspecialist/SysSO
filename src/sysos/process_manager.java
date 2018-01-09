@@ -82,7 +82,7 @@ public class process_manager {
         //ID
         public int PPID;
         public String name;
-
+        int des;//deskryptor do pliku;komunikacja procesow
         //szeregowanie
         public status s;
         public int pri, cpu;
