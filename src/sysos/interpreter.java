@@ -253,7 +253,7 @@ void exe()
 		roz=m.readUntilSpace(pr.counter);
 		pr.counter+=roz.length()+1;
 		String con=m.readUntilSpace(pr.counter);
-		pr.counter+=roz.length()+1;
+		pr.counter+=con.length()+1;
 		if(con=="R1")
 			con=Integer.toString(pr.A);
 		if(con=="R2")
@@ -266,21 +266,48 @@ void exe()
 	} break;
 	case "CP":
 	{
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		process pro = new process(roz);
+		String rez=m.readUntilSpace(pr.counter);
+		pr.counter+=rez.length()+1;
+		pro.exec(roz, rez, null);
+		
 	} break;
 	case "DP":
 	{
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		process.kill();
+	} break;
+	case "CC":
+	{
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		String roz2=m.readUntilSpace(pr.counter);
+		pr.counter+=roz2.length()+1;
+		Potoki.pipe();
 	} break;
 	case "SC":
 	{
-		process_manager.process.
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		Potoki.write();
 	} break;
 	case "RC":
 	{
-		
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		Potoki.read();
 	} break;
 	case "EX":
 	{
-		pr.exit(stat)
+		pr.kill(pr.PID);
 	}
 	}
 }
