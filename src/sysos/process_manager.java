@@ -96,7 +96,15 @@ public class process_manager {
 
         //kontekst procesu
         public int A, B, C, D, counter;
-
+        
+        //funkcja zapisu stringa do kolejki charów;komunikacja procesów
+        public void write_to_process(String buffor)
+        {
+            int i=buffor.length();
+            for(int x=0;x<i;x++)
+            IO.offer(buffor.charAt(1));
+        }
+        
         public process(String n) {
 
             this.name = n;
