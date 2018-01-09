@@ -232,6 +232,55 @@ void exe()
 		roz=m.readUntilSpace(pr.counter);
 		pr.counter+=roz.length()+1;
 		f.createFile(roz);
+	} break;
+	case "DF":
+	{
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		f.deleteFile(roz);
+	} break;
+	case "RF":
+	{
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		System.out.println(f.readFile(roz));
+	} break;
+	case "WF":
+	{
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		String con=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		if(con=="R1")
+			con=Integer.toString(pr.A);
+		if(con=="R2")
+			con=Integer.toString(pr.B);
+		if(con=="R3")
+			con=Integer.toString(pr.C);
+		if(con=="R4")
+			con=Integer.toString(pr.D);
+		f.writeFile(roz, con);
+	} break;
+	case "CP":
+	{
+	} break;
+	case "DP":
+	{
+	} break;
+	case "SC":
+	{
+		process_manager.process.
+	} break;
+	case "RC":
+	{
+		
+	} break;
+	case "EX":
+	{
+		pr.exit(stat)
 	}
 	}
 }
