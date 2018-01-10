@@ -55,7 +55,7 @@ public class Potoki {
     }
 
     //ta funkcja chyba powinna być w klasie procesu
-    void pipe(plik1 plik)//służy do utworzenia potoku
+    static void pipe(plik1 plik)//służy do utworzenia potoku
     {
         //proces znajduje wolny deskryptor inicjalizuje swoje indexy deskryptora;
         int index = plik.finddes();//od obiektu file
