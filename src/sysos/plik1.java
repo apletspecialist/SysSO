@@ -8,7 +8,7 @@ public class plik1 {
     static Potoki[] tab=new Potoki[16];
     static int rozmiar=16;
     
-       public int finddes()
+       static public int finddes()
        {
            int number=-1;
            for(int i=0;i<16;i++)
