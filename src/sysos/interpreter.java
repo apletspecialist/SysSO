@@ -289,7 +289,8 @@ void exe()
 		pr.counter+=roz.length()+1;
 		String roz2=m.readUntilSpace(pr.counter);
 		pr.counter+=roz2.length()+1;
-		Potoki.pipe();
+		//wcześniej powinien być utworzony jakiś proces macierzysty niezbedny do komunikacji
+		Potoki.pipe();//w funkcji pipe musi się znaleźć proces dla którego bedzie przebiegała komunikacja
 	} break;
 	case "SC":
 	{
