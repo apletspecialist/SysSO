@@ -116,6 +116,7 @@ public class process_manager {
         //ID
         public int PPID;
         public String name;
+        public int des;
 
         //szeregowanie
         public status s;
