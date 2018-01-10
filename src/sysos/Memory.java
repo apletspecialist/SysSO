@@ -14,9 +14,11 @@ public class Memory {
 	public FFA ffa; // tablica wolnych ramek
 	public Stack<Integer> lruStack; // stos do LRU
 	public int SWAP_END = 1;
+	private memory_manager T;
 	//////////////////////////////// KOSNSTRUKTOR //////////////////////////
 
 	public Memory() { // konstruktor, inicjalizacja
+		T = SysSO.T; // tutaj wskazuje na obiekt memory manager
 		ram = new char[128];
 		for (int i = 0; i < ram.length; i++)
 			ram[i] = ' ';
@@ -35,7 +37,7 @@ public class Memory {
 	////////////////////////////////// PUBLICZNE///////////////////////////////////////////////////////////////////
 
 	public void writeMemory(int l_addr, char value) {
-		PCB current = Main.T.getPcb(Main.OBECNY_PROCES);
+		process current = T.find(SysSO.OBECNY_PROCES);
 
 		if (l_addr > getProgramSize(current)) {
 			System.out.println("ADRES LOGICZNY WIEKSZY NIZ ROZMIAR PROGRAMU");
@@ -50,7 +52,7 @@ public class Memory {
 
 		if (isRamFull()) {
 			int victim = getVictim();
-			Main.T.getPcb(ffa.checkFrame(victim)).pageDisable(ffa.checkFrame(victim));
+			T.find(ffa.checkFrame(victim)).pageDisable(ffa.checkFrame(victim));
 			putPageToSwap(victim, Main.T.getPcb(ffa.checkFrame(victim)).swapFileBeginning * 16 + strona);
 			ffa.releaseFrame(victim);
 		}
@@ -61,14 +63,14 @@ public class Memory {
 		}
 		current.pageEnable(strona, free);
 		ramka = current.pageCheck(strona);
-		ffa.occupyFrame(ramka, Main.OBECNY_PROCES);
+		ffa.occupyFrame(ramka, SysSO.OBECNY_PROCES);
 		updateStack(ramka);
 
 		ram[ramka * 16 + l_addr % 16] = value;
 	}
 
 	public void allocateMemory(String program, int size) { // Wpisuje program do pliku wymiany
-		PCB pcb = Main.T.getPcb(Main.OBECNY_PROCES);
+		process pcb = T.find(SysSO.OBECNY_PROCES);
 		pcb.createPageTable(size);
 		pcb.swapFileBeginning = SWAP_END;
 		pcb.programSize = size;
@@ -178,10 +180,10 @@ public class Memory {
 	}
 
 	private int getProgramSize() { // zwraca rozmiar obecnego programu
-		return Main.T.getPcb(Main.OBECNY_PROCES).programSize;
+		return T.find(Main.OBECNY_PROCES).programSize;
 	}
 
-	private int getProgramSize(PCB p) { // zwraca rozmiar programu o podanym PCB
+	private int getProgramSize(process p) { // zwraca rozmiar programu o podanym PCB
 		return p.programSize;
 	}
 
@@ -214,7 +216,7 @@ public class Memory {
 	}
 
 	public char readMemory(int l_addr) { // zwraca char z pamiêci
-		PCB current = Main.T.getPcb(Main.OBECNY_PROCES);
+		process current = T.find(SysSO.OBECNY_PROCES);
 
 		if (l_addr > getProgramSize(current)) {
 			System.out.println("ADRES LOGICZNY WIEKSZY NIZ ROZMIAR PROGRAMU");
@@ -231,7 +233,7 @@ public class Memory {
 		if (isRamFull()) {
 			int victim = getVictim();
 			int f = ffa.checkFrame(victim);
-			PCB p = Main.T.getPcb(f);
+			process p = T.find(f);
 			p.pageDisable(victim);
 			putPageToSwap(victim, p.swapFileBeginning * 16 + strona);
 			ffa.releaseFrame(victim);
@@ -243,8 +245,8 @@ public class Memory {
 			ram[i] = toPut.charAt(j);
 		}
 		current.pageEnable(strona, free);
-		ramka = Main.T.getPcb(Main.OBECNY_PROCES).pageCheck(strona);
-		ffa.occupyFrame(ramka, Main.OBECNY_PROCES);
+		ramka = T.find(SysSO.OBECNY_PROCES).pageCheck(strona);
+		ffa.occupyFrame(ramka, SysSO.OBECNY_PROCES);
 		updateStack(ramka);
 
 		int doZwrotu = ramka * 16 + l_addr % 16;
